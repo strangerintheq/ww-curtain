@@ -1,3 +1,4 @@
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -6,9 +7,9 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-public class FileUtil {
+class FileUtil {
 
-    public static Object readImage(String filename) {
+    static BufferedImage readImage(String filename) {
         try {
             return ImageIO.read(getFile(filename));
         } catch (Exception e) {
@@ -17,7 +18,7 @@ public class FileUtil {
         }
     }
 
-    private String readText(String filename) {
+    static String readText(String filename) {
         String src = "";
         BufferedReader reader = null;
         try {
@@ -38,7 +39,7 @@ public class FileUtil {
         return src;
     }
 
-    static File getFile(String filename){
+    private static File getFile(String filename){
         ClassLoader classLoader = FileUtil.class.getClassLoader();
         URL resource = classLoader.getResource(filename);
         return new File(resource.getFile());
