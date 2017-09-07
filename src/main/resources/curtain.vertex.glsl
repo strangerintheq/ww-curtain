@@ -1,11 +1,7 @@
-#version 400
 
-layout (location = 0) in vec3 VertexPosition;
-layout (location = 1) in vec3 VertexColor;
+varying vec4 v_texCoord;
 
-out vec3 Color;
-
-void main(){
-	Color = VertexColor;
-    gl_Position = vec4(VertexPosition, 1.0);
+void main() {
+    v_texCoord = gl_TextureMatrix[0] * gl_MultiTexCoord0;
+    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 }
