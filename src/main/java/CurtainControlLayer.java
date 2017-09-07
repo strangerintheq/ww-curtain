@@ -110,4 +110,12 @@ public class CurtainControlLayer extends RenderableLayer implements SelectListen
         addRenderable(knob);
         return knob;
     }
+
+    public float getAngle() {
+        return curtain.getRotation().floatValue();
+    }
+
+    public float getCx() {
+        return curtain.getScreenOffset().getX().floatValue();
+    }
 }

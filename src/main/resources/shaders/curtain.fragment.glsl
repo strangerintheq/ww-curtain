@@ -1,4 +1,8 @@
+
 uniform sampler2D u_texture;
+uniform float cx;
+uniform float angle;
+uniform float height;
 
 varying vec4 v_texCoord;
 
@@ -7,8 +11,11 @@ void main() {
     if (v_texCoord.y < 0.) discard;
     if (v_texCoord.x > 1.) discard;
     if (v_texCoord.y > 1.) discard;
-    if (gl_FragCoord.x > 400) discard;
-    vec4 c = texture2D(u_texture, v_texCoord.xy);
-    c.r += 0.1;
-    gl_FragColor = c;//vec4(1.0, 0.0, 0.0, 1.0);
+
+
+
+
+
+    if (gl_FragCoord.x > cx) discard;
+    gl_FragColor = texture2D(u_texture, v_texCoord.xy);
 }

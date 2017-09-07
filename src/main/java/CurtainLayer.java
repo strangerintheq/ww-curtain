@@ -9,14 +9,25 @@ import java.nio.IntBuffer;
 public class CurtainLayer extends RenderableLayer {
 
     private int shaderProgram = 0;
+    private CurtainControlLayer controller;
 
     @Override
     protected void doRender(DrawContext drawContext) {
         GL2 gl = drawContext.getGL().getGL2();
-        if (shaderProgram == 0) createProgram(gl);
-        gl.glUseProgram(shaderProgram);
+        if (null != controller) {
+            if (shaderProgram == 0) createProgram(gl);
+            gl.glUseProgram(shaderProgram);
+            setFloatUniform(gl, "cx", controller.getCx() * drawContext.getDrawableWidth());
+            setFloatUniform(gl, "angle", (float) Math.PI*controller.getAngle() / 180);
+            setFloatUniform(gl, "height", drawContext.getDrawableHeight());
+        }
         super.doRender(drawContext);
         gl.glUseProgram(0);
+    }
+
+    private void setFloatUniform(GL2 gl, String uniformName, float value) {
+        int uniformId = gl.glGetUniformLocation(shaderProgram, uniformName);
+        if (uniformId > -1) gl.glUniform1f(uniformId, value);
     }
 
     private void createProgram(GL2 gl) {
@@ -72,5 +83,9 @@ public class CurtainLayer extends RenderableLayer {
         }
 
         return null;
+    }
+
+    public void setController(CurtainControlLayer controller) {
+        this.controller = controller;
     }
 }

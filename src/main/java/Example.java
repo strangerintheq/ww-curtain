@@ -1,18 +1,12 @@
 import gov.nasa.worldwind.BasicModel;
-import gov.nasa.worldwind.WorldWind;
-import gov.nasa.worldwind.WorldWindow;
 import gov.nasa.worldwind.awt.WorldWindowGLCanvas;
 import gov.nasa.worldwind.geom.LatLon;
 import gov.nasa.worldwind.render.Polyline;
-import gov.nasa.worldwind.render.ScreenImage;
 import gov.nasa.worldwind.render.SurfaceImage;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Example {
@@ -22,6 +16,7 @@ public class Example {
 
         CurtainControlLayer curtainControlLayer = new CurtainControlLayer();
         CurtainLayer curtainLayer = new CurtainLayer();
+        curtainLayer.setController(curtainControlLayer);
         curtainLayer.addRenderable(surfaceImage);
         curtainLayer.addRenderable(polyline);
 
