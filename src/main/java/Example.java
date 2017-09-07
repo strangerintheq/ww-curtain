@@ -27,6 +27,7 @@ public class Example {
 
         WorldWindowGLCanvas wwd = new WorldWindowGLCanvas();
         wwd.addSelectListener(curtainControlLayer);
+
         wwd.setPreferredSize(new Dimension(800, 600));
         wwd.setModel(new BasicModel());
         wwd.getModel().getLayers().add(curtainControlLayer);
