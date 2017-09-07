@@ -17,8 +17,9 @@ public class CurtainLayer extends RenderableLayer {
         if (null != controller) {
             if (shaderProgram == 0) createProgram(gl);
             gl.glUseProgram(shaderProgram);
-            setFloatUniform(gl, "cx", controller.getCx() * drawContext.getDrawableWidth());
+            setFloatUniform(gl, "cx", controller.getCx());
             setFloatUniform(gl, "angle", (float) Math.PI*controller.getAngle() / 180);
+            setFloatUniform(gl, "width", drawContext.getDrawableWidth());
             setFloatUniform(gl, "height", drawContext.getDrawableHeight());
         }
         super.doRender(drawContext);
