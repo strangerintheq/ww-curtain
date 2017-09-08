@@ -1,3 +1,5 @@
+package curtain;
+
 import gov.nasa.worldwind.layers.RenderableLayer;
 import gov.nasa.worldwind.render.DrawContext;
 

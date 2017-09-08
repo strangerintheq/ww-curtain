@@ -1,3 +1,5 @@
+package curtain;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -13,7 +15,7 @@ import gov.nasa.worldwind.render.Size;
 
 public class CurtainControlLayer extends RenderableLayer implements SelectListener {
 
-    private static final BufferedImage knobImage = FileUtil.readImage("images/knob.png");
+    private static final BufferedImage knobImage = FileUtil.readImage("images/circle.png");
     private static final BufferedImage curtainImage = FileUtil.readImage("images/curtain.png");
 
     private ScreenImage curtain = curtain();
@@ -75,18 +77,34 @@ public class CurtainControlLayer extends RenderableLayer implements SelectListen
         Double x1 = knob1.getScreenOffset().getX();
         Double x2 = knob2.getScreenOffset().getX();
         curtain.setScreenOffset(Offset.fromFraction(x1/2 + x2/2, 0.5));
-        int height = drawContext.getDrawableHeight() - knobImage.getHeight();
+        int height = drawContext.getDrawableHeight();
         x1 *= drawContext.getDrawableWidth();
         x2 *= drawContext.getDrawableWidth();
         double alpha = Math.atan((x2 - x1) / height);
         curtain.setRotation(180*alpha/Math.PI);
-        curtain.setSize(Size.fromPixels(8, (int)(height / Math.cos(alpha))));
+        curtain.setSize(Size.fromPixels(8, (int)(height / Math.cos(alpha))-knobImage.getHeight() + 2));
     }
 
     private void moveKnob(SelectEvent event, ScreenImage dragged) {
         WorldWindowGLCanvas ww = (WorldWindowGLCanvas) event.getSource();
         double x = event.getPickPoint().getX() / ww.getWidth();
-        Offset moveTo = Offset.fromFraction(x, dragged.getScreenOffset().getY());
+        double y = 1 - event.getPickPoint().getY() / ww.getHeight();
+        Offset offset = dragged.getScreenOffset();
+
+        if (x < 0) x = 0;
+        if (x > 1) x = 1;
+        if (y < 0) y = 0;
+        if (y > 1) y = 1;
+
+        boolean horizontal = y != 0 && y != 1;
+        if (horizontal && offset.getX() == 0) x = 0;
+        if (horizontal && offset.getX() == 1) x = 1;
+
+        boolean vertical = x != 0 && x != 1;
+        if (vertical && offset.getY() == 0) y = 0;
+        if (vertical && offset.getY() == 1) y = 1;
+
+        Offset moveTo = Offset.fromFraction(x, y);
         dragged.setScreenOffset(moveTo);
     }
 
@@ -100,7 +118,7 @@ public class CurtainControlLayer extends RenderableLayer implements SelectListen
     private ScreenImage knob(double y) {
         ScreenImage knob = image(knobImage);
         knob.setScreenOffset(Offset.fromFraction(0.5, y));
-        knob.setImageOffset(Offset.fromFraction(0.5, y));
+//        knob.setImageOffset(Offset.fromFraction(0.5, y));
         return knob;
     }
 
