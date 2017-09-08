@@ -13,19 +13,43 @@ public class CurtainLayer extends RenderableLayer {
     private int shaderProgram = 0;
     private CurtainControlLayer controller;
 
+
+    private int frameBuffer;
+    private int renderedTexture;
+    int[] tmpHandle = new int[1];
+
     @Override
     protected void doRender(DrawContext drawContext) {
         GL2 gl = drawContext.getGL().getGL2();
-        if (null != controller) {
-            if (shaderProgram == 0) createProgram(gl);
-            gl.glUseProgram(shaderProgram);
-            setFloatUniform(gl, "cx", controller.getCx());
-            setFloatUniform(gl, "angle", (float) Math.PI*controller.getAngle() / 180);
-            setFloatUniform(gl, "width", drawContext.getDrawableWidth());
-            setFloatUniform(gl, "height", drawContext.getDrawableHeight());
+//        if (null != controller) {
+//            if (shaderProgram == 0) createProgram(gl);
+//            gl.glUseProgram(shaderProgram);
+//            setFloatUniform(gl, "cx", controller.getCx());
+//            setFloatUniform(gl, "angle", (float) Math.PI*controller.getAngle() / 180);
+//            setFloatUniform(gl, "width", drawContext.getDrawableWidth());
+//            setFloatUniform(gl, "height", drawContext.getDrawableHeight());
+//        }
+
+        if (frameBuffer == 0) {
+            gl.glGenFramebuffers(1, tmpHandle, 0);
+            frameBuffer = tmpHandle[0];
         }
+
+        if (renderedTexture == 0) {
+            gl.glGenTextures(1, tmpHandle, 0);
+            renderedTexture = tmpHandle[0];
+        }
+
+        gl.glBindFramebuffer(GL2.GL_FRAMEBUFFER, frameBuffer);
+        gl.glFramebufferTexture2D(GL2.GL_FRAMEBUFFER, GL2.GL_COLOR_ATTACHMENT0, GL2.GL_TEXTURE_2D, renderedTexture, 0);
+
+
         super.doRender(drawContext);
-        gl.glUseProgram(0);
+        gl.glBindFramebuffer(GL2.GL_FRAMEBUFFER, 0);
+
+
+
+        //gl.glUseProgram(0);
     }
 
     private void setFloatUniform(GL2 gl, String uniformName, float value) {
