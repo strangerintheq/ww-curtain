@@ -1,4 +1,4 @@
-package curtain;
+package worldwind.curtain;
 
 import gov.nasa.worldwind.BasicModel;
 import gov.nasa.worldwind.awt.WorldWindowGLCanvas;

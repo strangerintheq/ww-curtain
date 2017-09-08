@@ -1,4 +1,4 @@
-package curtain;
+package worldwind.curtain;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,13 +17,16 @@ public class CurtainControlLayer extends RenderableLayer implements SelectListen
 
     private static final BufferedImage knobImage = FileUtil.readImage("images/circle.png");
     private static final BufferedImage curtainImage = FileUtil.readImage("images/curtain.png");
-
+    private static Cursor resizeCursor = new Cursor(Cursor.E_RESIZE_CURSOR);
+    private static Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
     private ScreenImage curtain = curtain();
     private ScreenImage knob1 = knob(1.);
     private ScreenImage knob2 = knob(0.);
     private Point curtainDragStartPoint;
     private Double knob1DragStartOffset;
     private Double knob2DragStartOffset;
+
+    private boolean isHorizontal = true;
 
     @Override
     public void preRender(DrawContext drawContext) {
@@ -38,19 +41,36 @@ public class CurtainControlLayer extends RenderableLayer implements SelectListen
             knob2DragStartOffset = null;
             return;
         }
-        if (!event.getEventAction().equals(SelectEvent.DRAG)) return;
-        ScreenImage dragged = null;
+        ScreenImage image = null;
+        if (event.getObjects() != null)
         for (PickedObject po : event.getObjects()) {
-            if (po.getObject().equals(curtain)) dragged = curtain;
-            if (po.getObject().equals(knob1)) dragged = knob1;
-            if (po.getObject().equals(knob2)) dragged = knob2;
+            if (po.getObject().equals(curtain)) image = curtain;
+            if (po.getObject().equals(knob1)) image = knob1;
+            if (po.getObject().equals(knob2)) image = knob2;
         }
-        if (dragged == null) return;
+        if (image == null) {
+            WorldWindowGLCanvas ww = (WorldWindowGLCanvas) event.getSource();
+            ww.setCursor(defaultCursor);
+            return;
+        }
+        handleDrag(event, image);
+        handleRollover(event);
+    }
+
+    private void handleRollover(SelectEvent event) {
+        if (!event.getEventAction().equals(SelectEvent.ROLLOVER)) return;
         event.consume();
-        if (dragged.equals(curtain)) {
+        WorldWindowGLCanvas ww = (WorldWindowGLCanvas) event.getSource();
+        ww.setCursor(resizeCursor);
+    }
+
+    private void handleDrag(SelectEvent event, ScreenImage image) {
+        if (!event.getEventAction().equals(SelectEvent.DRAG)) return;
+        event.consume();
+        if (image.equals(curtain)) {
             moveAll(event);
         } else {
-            moveKnob(event, dragged);
+            moveKnob(event, image);
         }
     }
 
@@ -63,8 +83,11 @@ public class CurtainControlLayer extends RenderableLayer implements SelectListen
         }
         WorldWindowGLCanvas ww = (WorldWindowGLCanvas) event.getSource();
         double dx = ((double) event.getPickPoint().x - (double) curtainDragStartPoint.x)/ww.getWidth();
-        translateX(knob1, knob1DragStartOffset + dx);
-        translateX(knob2, knob2DragStartOffset + dx);
+        double x1 = knob1DragStartOffset + dx;
+        double x2 = knob2DragStartOffset + dx;
+        if (x1 < 0 || x2 < 0 || x1 > 1 || x2 > 1) return;
+        translateX(knob1, x1);
+        translateX(knob2, x2);
     }
 
     private void translateX(ScreenImage image, double dx) {
@@ -88,23 +111,13 @@ public class CurtainControlLayer extends RenderableLayer implements SelectListen
     private void moveKnob(SelectEvent event, ScreenImage dragged) {
         WorldWindowGLCanvas ww = (WorldWindowGLCanvas) event.getSource();
         double x = event.getPickPoint().getX() / ww.getWidth();
-        double y = 1 - event.getPickPoint().getY() / ww.getHeight();
+//        double y = 1 - event.getPickPoint().getY() / ww.getHeight();
         Offset offset = dragged.getScreenOffset();
 
         if (x < 0) x = 0;
         if (x > 1) x = 1;
-        if (y < 0) y = 0;
-        if (y > 1) y = 1;
 
-        boolean horizontal = y != 0 && y != 1;
-        if (horizontal && offset.getX() == 0) x = 0;
-        if (horizontal && offset.getX() == 1) x = 1;
-
-        boolean vertical = x != 0 && x != 1;
-        if (vertical && offset.getY() == 0) y = 0;
-        if (vertical && offset.getY() == 1) y = 1;
-
-        Offset moveTo = Offset.fromFraction(x, y);
+        Offset moveTo = Offset.fromFraction(x, offset.getY());
         dragged.setScreenOffset(moveTo);
     }
 

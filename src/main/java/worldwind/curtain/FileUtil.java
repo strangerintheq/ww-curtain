@@ -1,4 +1,4 @@
-package curtain;
+package worldwind.curtain;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
