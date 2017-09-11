@@ -22,6 +22,9 @@ public class Example {
         curtainLayer.addRenderable(surfaceImage);
         curtainLayer.addRenderable(polyline);
 
+        // раскомментировать длч выключения шторки
+        // curtainControlLayer.setEnabled(false);
+
         WorldWindowGLCanvas wwd = new WorldWindowGLCanvas();
         wwd.addSelectListener(curtainControlLayer);
 
