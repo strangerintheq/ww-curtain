@@ -1,4 +1,4 @@
-package worldwind;
+package worldwind.atmosphere;
 
 import java.nio.IntBuffer;
 
