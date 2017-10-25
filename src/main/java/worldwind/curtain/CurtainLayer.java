@@ -2,6 +2,7 @@ package worldwind.curtain;
 
 import gov.nasa.worldwind.layers.RenderableLayer;
 import gov.nasa.worldwind.render.DrawContext;
+import worldwind.common.FileUtil;
 
 import javax.media.opengl.GL2;
 

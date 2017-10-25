@@ -7,9 +7,6 @@ import gov.nasa.worldwind.layers.RenderableLayer;
 import gov.nasa.worldwind.render.DrawContext;
 import gov.nasa.worldwind.terrain.SectorGeometry;
 
-/**
- * Created by Balashev Konstantin @ 20.09.2017.
- */
 public class ShadowLayer extends RenderableLayer {
 
     private final Layer layer;

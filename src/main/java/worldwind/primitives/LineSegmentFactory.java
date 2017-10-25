@@ -62,7 +62,7 @@ class LineSegmentFactory {
         return dc.getView().project(cartesian);
     }
 
-    public List<List<Vec4>> getSegments() {
+    List<List<Vec4>> getSegments() {
         return segments;
     }
 }

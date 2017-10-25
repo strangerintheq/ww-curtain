@@ -12,6 +12,7 @@ import gov.nasa.worldwind.render.DrawContext;
 import gov.nasa.worldwind.render.Offset;
 import gov.nasa.worldwind.render.ScreenImage;
 import gov.nasa.worldwind.render.Size;
+import worldwind.common.FileUtil;
 
 public class CurtainControlLayer extends RenderableLayer implements SelectListener {
 
