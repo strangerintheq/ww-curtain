@@ -8,7 +8,7 @@ uniform float aspectRatio;
 uniform float width;
 const float PI = 3.1416;
 void main() {
-   vec4 p = vertexPoint;
+   vec4 p = gl_Vertex;
    float angle = p.z / 180.0 * PI;
    float shift = p.w;
    p.z = 0.0;
@@ -19,7 +19,7 @@ void main() {
        p.x += cos(angle) * width * shift;
        p.y += sin(angle) * width * shift * aspectRatio;
    }
-   gl_Position = mvpMatrix * p;
+   gl_Position = gl_ModelViewProjectionMatrix * p;
 //   if (angle > PI) angle -= 2.0*PI\n; +
 //   distance = clamp(sign(angle), -1.0, 1.0);
 }

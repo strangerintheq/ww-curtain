@@ -45,7 +45,7 @@ class LineSegmentFactory {
 
     void pushSegment() {
         if (currentSegment.size() >= 2) {
-            segments.add(currentSegment);
+            segments.add(new ArrayList<Vec4>(currentSegment));
         }
         currentSegment.clear();
     }

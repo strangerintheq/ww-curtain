@@ -108,4 +108,9 @@ public class ShaderProgram {
 		int uniformId = find(uniformName);
 		if (uniformId > -1) gl.glUniform1i(uniformId, i);
 	}
+
+    public void setFloat(String uniformName, float f) {
+		int uniformId = find(uniformName);
+		if (uniformId > -1) gl.glUniform1f(uniformId, f);
+    }
 }

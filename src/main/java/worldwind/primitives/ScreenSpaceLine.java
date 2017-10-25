@@ -159,15 +159,19 @@ public class ScreenSpaceLine implements Renderable {
         double h = dc.getView().getViewport().height;
         OGLStackHandler stack = new OGLStackHandler();
         try {
+            program.useProgram();
             stack.pushProjectionIdentity(gl);
-            gl.glOrtho(0.0D, w, 0.0D, h, -1.0D, 1.0D);
             stack.pushModelviewIdentity(gl);
+            gl.glOrtho(0.0D, w, 0.0D, h, 1.0D, 1.0D);
             int vertexCount = bindVertexBufferData();
             if (vertexCount == 0)
                 return;
-            gl.glDrawArrays(GL2.GL_TRIANGLES, 0, vertexCount);
+            program.setFloat("aspectRatio", (float) (w/h));
+            program.setFloat("width", 0.01f);
+            gl.glDrawArrays(GL2.GL_LINE_STRIP, 0, vertexCount);
         } finally {
             stack.pop(gl);
+            program.disable();
         }
 
 //        Matrix imageTransform = Matrix.fromScale(w, h, 1);
@@ -196,6 +200,8 @@ public class ScreenSpaceLine implements Renderable {
         GL2 gl = dc.getGLContext().getGL().getGL2();
         List<Vec4> points = triangulator.convertLineBucketToSetOfTriangles(
                 dc, segmentFactory.getSegments(), properties);
+        if (points.isEmpty())
+            return 0;
         FloatBuffer buffer = Buffers.newDirectFloatBuffer(points.size() * 4);
         for (Vec4 point : points) {
             buffer.put((float)point.x);
@@ -203,8 +209,8 @@ public class ScreenSpaceLine implements Renderable {
             buffer.put((float)point.z);
             buffer.put((float)point.w);
         }
-//        gl.bufferData(gl.ARRAY_BUFFER, pointsArray, gl.STATIC_DRAW);
         gl.glVertexPointer(4, GL2.GL_FLOAT, 0, buffer.rewind());
+        gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
         return points.size();
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import gov.nasa.worldwind.geom.Vec4;
 import gov.nasa.worldwind.render.DrawContext;
 
-public class LineTriangulator {
+class LineTriangulator {
 
     private List<Vec4> points = new ArrayList<Vec4>();
     private PathProperties props;
@@ -101,9 +101,9 @@ public class LineTriangulator {
 
     double ptShiftDir(Double d0, Double d1, Boolean isLeft) {
         double result;
-        if (isLeft != null && Math.abs(angleBetweenDirections(d1, d0)) > 45)
-            result = (isLeft ? d1 : d0) + 90;
-        else if (d0 == null)
+//        if (isLeft != null && Math.abs(angleBetweenDirections(d1, d0)) > 45)
+//            result = (isLeft ? d1 : d0) + 90;
+        if (d0 == null)
             result = d1 + 90;
         else if (d1 == null)
             result = d0 + 90;
@@ -144,6 +144,12 @@ public class LineTriangulator {
         }
     }
 
+    Double lineDir(Vec4 a, Vec4 b){
+        if (a==null || b == null )
+            return null;
+        return lineDir(a.x,a.y,b.x,b.y);
+    }
+
     void handleSegment(List<Vec4> segment) {
         int end = segment.size() - 2;
         for (int i = 0; i <= end; i++) {
@@ -152,9 +158,9 @@ public class LineTriangulator {
             Vec4 e = getPoint(segment, i + 1); // current line end point
             Vec4 n = getPoint(segment, i + 2); // next line right point (null for last line in segment)
 
-            double pd = lineDir(p.x, p.y, s.x, s.y); // previous line direction  (null for first line in segment)
-            double cd = lineDir(s.x, s.y, e.x, e.y); // current line direction
-            double nd = lineDir(e.x, e.y, n.x, n.y); // next line direction (null for last line in segment)
+            Double pd = lineDir(p, s); // previous line direction  (null for first line in segment)
+            Double cd = lineDir(s, e); // current line direction
+            Double nd = lineDir(e, n); // next line direction (null for last line in segment)
 
             // calc points shift direction in angles (shifting performed by shader)
             double sl = ptShiftDir(pd, cd, true);  // start left point shift direction
