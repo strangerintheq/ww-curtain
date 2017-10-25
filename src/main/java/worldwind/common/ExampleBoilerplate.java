@@ -3,6 +3,7 @@ package worldwind.common;
 import gov.nasa.worldwind.BasicModel;
 import gov.nasa.worldwind.awt.WorldWindowGLCanvas;
 
+import gov.nasa.worldwind.layers.Earth.BMNGWMSLayer;
 import gov.nasa.worldwind.layers.StarsLayer;
 import worldwind.atmosphere.Atmosphere;
 

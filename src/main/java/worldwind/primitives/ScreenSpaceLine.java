@@ -26,7 +26,7 @@ public class ScreenSpaceLine implements Renderable {
     private LineTriangulator triangulator;
     private List<Position> points;
     private List<Position> positions;
-    private List<Position> tessellated;
+    private List<Position> tessellated = new ArrayList<Position>();
     private long timestamp;
     private DrawContext dc;
     private static ShaderProgram program;
@@ -44,7 +44,7 @@ public class ScreenSpaceLine implements Renderable {
         if (!props.enabled || props.opacity <= 0 || dc.isPickingMode() || points.size() < 2) {
             return;
         }
-        if (tessellated == null || expired()) {
+        if (tessellated.isEmpty() || expired()) {
             simplifyBoundaries();
             makeTessellatedPositionsIfNeeded();
         }
