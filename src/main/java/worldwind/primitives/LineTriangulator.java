@@ -9,10 +9,10 @@ import gov.nasa.worldwind.render.DrawContext;
 class LineTriangulator {
 
     private List<Vec4> points = new ArrayList<Vec4>();
-    private PathProperties props;
+    private LineProperties props;
     private DrawContext dc;
 
-    List<Vec4> convertLineBucketToSetOfTriangles(DrawContext dc, List<List<Vec4>> segments, PathProperties props) {
+    List<Vec4> convertLineBucketToSetOfTriangles(DrawContext dc, List<List<Vec4>> segments, LineProperties props) {
         this.dc = dc;
         this.props = props;
         points.clear();

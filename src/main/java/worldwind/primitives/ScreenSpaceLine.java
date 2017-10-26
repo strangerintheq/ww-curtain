@@ -20,7 +20,7 @@ public class ScreenSpaceLine implements Renderable {
 
     private static int pixelPerSegment = 8;
 
-    private PathProperties properties;
+    private LineProperties properties;
     private LineSegmentFactory segmentFactory;
     private LineTriangulator triangulator;
     private List<Position> points;
@@ -34,12 +34,12 @@ public class ScreenSpaceLine implements Renderable {
         this.points = points;
         this.segmentFactory = new LineSegmentFactory(pixelPerSegment);
         this.triangulator = new LineTriangulator();
-        this.properties = new PathProperties();
+        this.properties = new LineProperties();
     }
 
     public void render(DrawContext dc) {
         this.dc = dc;
-        PathProperties props = this.properties;
+        LineProperties props = this.properties;
         if (!props.enabled || props.opacity <= 0 || dc.isPickingMode() || points.size() < 2) {
             return;
         }

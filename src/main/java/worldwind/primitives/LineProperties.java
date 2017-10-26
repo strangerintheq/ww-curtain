@@ -2,7 +2,7 @@ package worldwind.primitives;
 
 import java.awt.Color;
 
-public class PathProperties {
+public class LineProperties {
     double opacity = 1;
     double width = 2;
     boolean enabled = true;
