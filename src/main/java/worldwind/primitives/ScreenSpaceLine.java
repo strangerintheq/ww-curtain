@@ -13,7 +13,6 @@ import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.geom.Vec4;
 import gov.nasa.worldwind.render.DrawContext;
 import gov.nasa.worldwind.render.Renderable;
-import gov.nasa.worldwind.util.OGLStackHandler;
 import worldwind.common.FileUtil;
 import worldwind.common.ShaderProgram;
 
@@ -157,20 +156,16 @@ public class ScreenSpaceLine implements Renderable {
         GL2 gl = dc.getGL().getGL2();
         double w = dc.getView().getViewport().width;
         double h = dc.getView().getViewport().height;
-        OGLStackHandler stack = new OGLStackHandler();
         try {
             program.useProgram();
-            stack.pushProjectionIdentity(gl);
-            stack.pushModelviewIdentity(gl);
-            gl.glOrtho(0.0D, w, 0.0D, h, 1.0D, 1.0D);
             int vertexCount = bindVertexBufferData();
             if (vertexCount == 0)
                 return;
             program.setFloat("aspectRatio", (float) (w/h));
-            program.setFloat("width", 0.01f);
-            gl.glDrawArrays(GL2.GL_LINE_STRIP, 0, vertexCount);
+            program.setFloat("width", (float) (properties.width/w));
+            program.setVec3("color", properties.color.getColorComponents(null));
+            gl.glDrawArrays(GL2.GL_TRIANGLES, 0, vertexCount);
         } finally {
-            stack.pop(gl);
             program.disable();
         }
 
@@ -187,9 +182,7 @@ public class ScreenSpaceLine implements Renderable {
 //        program.loadWidth(gl, bucket.width/w/2);
 //
 
-//        GL2 var3 = var1.getGL().getGL2();
-//        var3.glVertexPointer(3, 5126, 4 * var2.vertexStride, var2.renderedPath.rewind());
-//        var3.glDrawArrays(5, 0, var2.vertexCount);
+
 
         // debug
         // program.loadColor(gl, Color.WHITE);

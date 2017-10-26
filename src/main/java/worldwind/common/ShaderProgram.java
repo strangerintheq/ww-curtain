@@ -84,10 +84,17 @@ public class ShaderProgram {
 	}
 	
 	public void setVec3(String uniformName, double[] array) {
-		if (null == array) 
+		if (null == array)
 			return;
 		int uniformId = find(uniformName);
 		if (uniformId > -1) gl.glUniform3f(uniformId, (float)array[0], (float)array[1], (float)array[2]);
+	}
+
+	public void setVec3(String uniformName, float[] array) {
+		if (null == array)
+			return;
+		int uniformId = find(uniformName);
+		if (uniformId > -1) gl.glUniform3f(uniformId, array[0], array[1], array[2]);
 	}
 
 	private int find(String uniformName) {

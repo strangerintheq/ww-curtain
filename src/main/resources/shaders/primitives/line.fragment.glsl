@@ -1,6 +1,6 @@
 #version 110
 
-precision mediump float;
+//precision mediump float;
 
 //uniform float opacity;
 //varying float distance;

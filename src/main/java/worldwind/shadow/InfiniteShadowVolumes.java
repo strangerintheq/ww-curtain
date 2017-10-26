@@ -96,7 +96,7 @@
 //    Frame frame = new Frame("Infinite Stenciled Shadow Volumes");
 //    frame.setLayout(new BorderLayout());
 //    canvas.setSize(512, 512);
-//    frame.add(canvas, BorderLayout.CENTER);
+//    frame.renderable(canvas, BorderLayout.CENTER);
 //    frame.pack();
 //    frame.setVisible(true);
 //    canvas.requestFocus();
