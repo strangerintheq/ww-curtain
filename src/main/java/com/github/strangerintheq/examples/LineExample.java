@@ -1,7 +1,7 @@
 package com.github.strangerintheq.examples;
 
 import gov.nasa.worldwind.geom.Position;
-import com.github.strangerintheq.worldwind.common.ExampleBoilerplate;
+
 import com.github.strangerintheq.worldwind.primitives.ScreenSpaceLine;
 
 import java.util.*;

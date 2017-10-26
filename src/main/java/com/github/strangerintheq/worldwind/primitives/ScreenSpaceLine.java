@@ -13,6 +13,8 @@ import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.geom.Vec4;
 import gov.nasa.worldwind.render.DrawContext;
 import gov.nasa.worldwind.render.Renderable;
+
+
 import com.github.strangerintheq.worldwind.common.FileUtil;
 import com.github.strangerintheq.worldwind.common.ShaderProgram;
 
@@ -167,8 +169,8 @@ public class ScreenSpaceLine implements Renderable {
             gl.glDrawArrays(GL2.GL_TRIANGLES, 0, vertexCount);
 
             // debug
-            // program.loadColor(gl, Color.WHITE);
-            // gl.drawArrays(gl.LINES, 0, vertexCount);
+        //    program.setColor("color", java.awt.Color.BLACK);
+       //      gl.glDrawArrays(GL2.GL_TRIANGLES, 0, vertexCount);
 
         } finally {
             program.disable();

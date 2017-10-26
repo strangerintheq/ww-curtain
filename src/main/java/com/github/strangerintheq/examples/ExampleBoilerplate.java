@@ -20,7 +20,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-
 public class ExampleBoilerplate extends WorldWindowGLCanvas {
 
     private RenderableLayer userLayer;
@@ -45,19 +44,19 @@ public class ExampleBoilerplate extends WorldWindowGLCanvas {
         frame.setVisible(true);
     }
 
-    public ExampleBoilerplate layer(Layer l) {
+    ExampleBoilerplate layer(Layer l) {
         getModel().getLayers().add(l);
         return this;
     }
 
-    public ExampleBoilerplate renderable(Renderable renderable) {
+    ExampleBoilerplate renderable(Renderable renderable) {
         if (null == userLayer)
             layer(userLayer = new RenderableLayer());
         userLayer.addRenderable(renderable);
         return this;
     }
 
-    protected static Injector createDefaultInjector() {
+    static Injector createDefaultInjector() {
         return Guice.createInjector(new AbstractModule() {
             @Override
             protected void configure() {

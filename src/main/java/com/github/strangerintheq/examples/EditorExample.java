@@ -1,6 +1,5 @@
 package com.github.strangerintheq.examples;
 
-import com.github.strangerintheq.worldwind.common.ExampleBoilerplate;
 import com.github.strangerintheq.worldwind.editor.EditorLayer;
 
 public class EditorExample extends ExampleBoilerplate {

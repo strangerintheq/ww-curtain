@@ -5,10 +5,10 @@
 //uniform float opacity;
 //varying float distance;
 //varying float join;
-//uniform vec4 color;
+uniform vec4 color;
 
 void main() {
-    gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+    gl_FragColor = color;
 //  if (join > 0.0) {
 //    gl_FragColor.b = 1.0;gl_FragColor.r = 0.0;
 //  }

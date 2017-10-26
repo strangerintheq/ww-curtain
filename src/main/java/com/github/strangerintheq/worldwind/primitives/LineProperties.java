@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class LineProperties {
     double opacity = 1;
-    double width = 2;
+    double width = 20;
     boolean enabled = true;
     boolean depth;
     boolean simplify;

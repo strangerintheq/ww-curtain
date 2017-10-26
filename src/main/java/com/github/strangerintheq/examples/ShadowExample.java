@@ -1,7 +1,7 @@
 package com.github.strangerintheq.examples;
 
 import gov.nasa.worldwind.layers.Earth.BMNGWMSLayer;
-import com.github.strangerintheq.worldwind.common.ExampleBoilerplate;
+
 import com.github.strangerintheq.worldwind.shadow.ShadowLayer;
 
 public class ShadowExample extends ExampleBoilerplate {
