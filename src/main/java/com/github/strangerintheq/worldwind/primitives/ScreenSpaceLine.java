@@ -133,8 +133,6 @@ public class ScreenSpaceLine implements Renderable {
         GL2 gl = dc.getGL().getGL2();
         if (null == program)
             program = new ShaderProgram(gl, source("vertex"), source("fragment"));
-//        gl.glBindBuffer(gl.ARRAY_BUFFER, dc.unitQuadBuffer());
-//        gl.enableVertexAttribArray(program.vertexPointLocation);
         gl.glDisable(GL2.GL_CULL_FACE);
         gl.glBlendFunc(GL2.GL_ONE, GL2.GL_ONE_MINUS_SRC_ALPHA);
         if (this.properties.depth)
@@ -147,8 +145,6 @@ public class ScreenSpaceLine implements Renderable {
 
     void endDrawing() {
         GL2 gl = dc.getGL().getGL2();
-//        gl.disableVertexAttribArray(dc.currentProgram.vertexPointLocation);
-//        gl.bindBuffer(gl.ARRAY_BUFFER, null);
         gl.glEnable(GL2.GL_CULL_FACE);
         if (this.properties.depth)
             gl.glDepthMask(true);
@@ -167,15 +163,9 @@ public class ScreenSpaceLine implements Renderable {
             program.setFloat("width", properties.width/w);
             program.setColor("color", properties.color);
             gl.glDrawArrays(GL2.GL_TRIANGLES, 0, vertexCount);
-
-            // debug
-        //    program.setColor("color", java.awt.Color.BLACK);
-       //      gl.glDrawArrays(GL2.GL_TRIANGLES, 0, vertexCount);
-
         } finally {
             program.disable();
         }
-
     }
 
     int bindVertexBufferData() {
